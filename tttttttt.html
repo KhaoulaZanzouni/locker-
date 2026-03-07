@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Activer Option TikTok</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:'Inter',sans-serif;
+background:#0f172a;
+}
+
+/* contenu verrouillé */
+#content-to-lock{
+filter:blur(8px);
+pointer-events:none;
+user-select:none;
+padding:40px;
+color:white;
+}
+
+/* overlay */
+#lockerWrapper{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+background:rgba(0,0,0,0.85);
+z-index:9999;
+}
+
+/* card */
+.locker-card{
+
+background:white;
+width:90%;
+max-width:420px;
+border-radius:20px;
+padding:35px;
+text-align:center;
+box-shadow:0 20px 60px rgba(0,0,0,0.5);
+animation:popup 0.4s ease;
+}
+
+@keyframes popup{
+from{transform:scale(.8);opacity:0}
+to{transform:scale(1);opacity:1}
+}
+
+/* tiktok logo */
+
+.tiktok-logo{
+
+width:70px;
+margin-bottom:10px;
+
+}
+
+/* title */
+
+.locker-header h2{
+
+margin:10px 0;
+font-size:24px;
+color:#111827;
+
+}
+
+.locker-header p{
+
+color:#6b7280;
+font-size:14px;
+line-height:1.6;
+margin-bottom:25px;
+
+}
+
+/* offers */
+
+#offerContainer{
+
+display:flex;
+flex-direction:column;
+gap:12px;
+
+}
+
+.offer-item{
+
+display:flex;
+align-items:center;
+padding:12px;
+border-radius:12px;
+background:#f1f5f9;
+border:1px solid #e2e8f0;
+text-decoration:none;
+transition:0.2s;
+
+}
+
+.offer-item:hover{
+
+transform:scale(1.03);
+border-color:#ff0050;
+background:#fff;
+
+}
+
+.offer-icon{
+
+width:45px;
+height:45px;
+border-radius:10px;
+margin-right:12px;
+
+}
+
+.offer-details{
+
+flex:1;
+text-align:left;
+
+}
+
+.offer-name{
+
+font-weight:600;
+font-size:14px;
+color:#111827;
+display:block;
+
+}
+
+.offer-desc{
+
+font-size:12px;
+color:#6b7280;
+
+}
+
+.offer-action{
+
+background:#ff0050;
+color:white;
+font-size:12px;
+padding:6px 10px;
+border-radius:8px;
+font-weight:600;
+
+}
+
+/* footer */
+
+.locker-footer{
+
+margin-top:20px;
+font-size:12px;
+color:#9ca3af;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="content-to-lock">
+
+<h1>Contenu Premium</h1>
+<p>Ce contenu est réservé aux utilisateurs vérifiés.</p>
+
+</div>
+
+<div id="lockerWrapper">
+
+<div class="locker-card">
+
+<div class="locker-header">
+
+<img class="tiktok-logo" src="https://tokactiv.com/assets/tiktok-logo-mIuVRUT4.png">
+
+<h2>Activer Option TikTok</h2>
+
+<p>
+Pour continuer, effectuez seulement 2 à 3 activités simples et lisez les instructions fournies pour chacune ci-dessous afin de vérifier que vous n’êtes pas un robot.
+</p>
+
+</div>
+
+<div id="offerContainer">
+
+<div style="padding:20px;color:#6b7280;">
+Chargement des offres...
+</div>
+
+</div>
+
+<div class="locker-footer">
+
+Veuillez compléter une offre pour continuer.
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+
+$(function(){
+
+const userId='491892'
+const apiKey='97683b9cfc2ccd71fd81a9818dc5f523'
+
+const apiUrl=`https://d2dzcaq3bhqk1m.cloudfront.net/public/offers/feed.php?user_id=${userId}&api_key=${apiKey}&callback=?`
+
+$.getJSON(apiUrl,function(offers){
+
+let html=""
+
+let numOffers=5
+
+let limitedOffers=offers.slice(0,numOffers)
+
+if(limitedOffers.length>0){
+
+$("#offerContainer").html("")
+
+$.each(limitedOffers,function(key,offer){
+
+let icon=offer.network_icon?offer.network_icon:"https://via.placeholder.com/50"
+
+html+=`
+
+<a href="${offer.url}" target="_blank" class="offer-item">
+
+<img src="${icon}" class="offer-icon">
+
+<div class="offer-details">
+
+<span class="offer-name">${offer.name}</span>
+
+<span class="offer-desc">${offer.conversion}</span>
+
+</div>
+
+<div class="offer-action">ACTIVER</div>
+
+</a>
+
+`
+
+})
+
+$("#offerContainer").append(html)
+
+}else{
+
+$("#offerContainer").html("<p>Aucune offre disponible pour votre pays.</p>")
+
+}
+
+})
+
+})
+
+</script>
+
+</body>
+</html>
